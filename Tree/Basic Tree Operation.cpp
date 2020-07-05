@@ -1,35 +1,77 @@
-#include<bits/stdc++.h>
+//Tree Creation and Traversal
+
+//Three types :-
+// i) inorder(left,root,right)
+//ii) preorder(root,left,right)
+//iii) postorder(left,right,root)
+//Immlementation
+//            1
+//          /   \
+//        2       3
+//       / \     / \
+//      4   5   6   7
+//inorder : -  4,2,5,1,6,3,7 
+//preorder : -  1,2,4,5,3,6,7
+//postorder : -  4,5,2,6,7,3,1
+
+#include <bits/stdc++.h>
 
 using namespace std;
 
-struct node  // creating node
+class node
 {
+public:
     int data;
-    node* left;
-    node* right;
+    node *left;
+    node *right;
 };
 
-node* root = NULL;
+//creating root
+node *root = NULL;
 
-node* insert(int data) //inserting data
+void inorder(node *temproot)
 {
-    node* temp = (node*)malloc(sizeof(node));
-    temp->data = data;
-    temp->left = NULL;
-    temp->right = NULL;
-
-    return temp;
+    if (temproot == NULL)
+    {
+        return;
+    }
+    
+    inorder(temproot->left);
+    cout << temproot->data << " ";
+    inorder(temproot->right);
 }
 
-void inorder(node* temp) //inorder transversal
+void preorder(node *temproot)
 {
-    if(temp==NULL)
+    if (temproot == NULL)
+    {
         return;
+    }
+    
+    cout << temproot->data << " ";
+    preorder(temproot->left);
+    preorder(temproot->right);
+}
 
-    inorder(temp->left);
-    cout<<temp->data;
-    inorder(temp->right);
-    return;
+void postorder(node *temproot)
+{
+    if (temproot == NULL)
+    {
+        return;
+    }
+    
+    postorder(temproot->left);
+    postorder(temproot->right);
+    cout << temproot->data << " ";
+}
+
+node *insert(int val)
+{
+    node *temp = new node();
+    temp->data = val;
+    temp->left = NULL;
+    temp->right = NULL;
+    return temp;
 }
 
 int main()
@@ -37,7 +79,27 @@ int main()
     root = insert(1);
     root->left = insert(2);
     root->right = insert(3);
-    inorder(root);
+    root->left->left = insert(4);
+    root->left->right = insert(5);
+    root->right->left = insert(6);
+    root->right->right = insert(7);
 
-	return 0;
+    //Printing part
+
+    //Inorder Transversal
+    cout << "InOrder : - \t";
+    inorder(root);
+    cout << endl;
+
+    //preorder Transversal
+    cout << "PreOrder : - \t";
+    preorder(root);
+    cout << endl;
+
+    //postorder Transversal
+    cout << "PostOrder : - \t";
+    postorder(root);
+    cout << endl;
+
+    return 0;
 }

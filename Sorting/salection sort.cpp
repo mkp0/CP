@@ -1,16 +1,16 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 
 using namespace std;
 
-void selectionsort(int arr[],int len)
+void selectionsort(int arr[], int len)
 {
-    for(int i = 0 ; i < len-1 ; i++)
+    for (int i = 0; i < len - 1; i++)
     {
         int minn = i;
-        for(int j = i+1 ; j < len ; j++)
+        for (int j = i + 1; j < len; j++)
         {
-                if(arr[j]<arr[minn])
-                    minn = j;
+            if (arr[j] < arr[minn])
+                minn = j;
         }
         arr[i] = arr[i] + arr[minn];
         arr[minn] = arr[i] - arr[minn];
@@ -20,12 +20,12 @@ void selectionsort(int arr[],int len)
 
 int main()
 {
-    int arr[] = {4,11,8,1,6};
+    int arr[] = {4, 11, 8, 1, 6};
 
-    selectionsort(arr,5);
+    selectionsort(arr, 5);
 
-    for(auto x : arr)
-        cout<<x<<endl;
+    for (auto x : arr)
+        cout << x << endl;
 
     return 0;
 }

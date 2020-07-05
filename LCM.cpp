@@ -1,25 +1,37 @@
-//LCM of Two Number
-#include<bits/stdc++.h>
+// we are using LCM(a,b) = (a*b)/gcd(a,b)
+#include <bits/stdc++.h>
 
 using namespace std;
 
-int gcd(int a , int b )
+int gcd(int a, int b)
 {
-    if(b==0) return a;
-
-    else return gcd(b , a%b);
+    if (b == 0)
+    {
+        return a;
+    }
+    else
+    {
+        return gcd(b, a % b);
+    }
 }
 
-int lcm(int a , int b)
+int lcm(int arr[], int len)
 {
-    return (a*b)/gcd(a,b);
+    int ans = arr[0];
+
+    for (int i = 1; i < len; i++)
+    {
+        ans = (ans * arr[i]) / gcd(ans, arr[i]);
+    }
+
+    return ans;
 }
 
 int main()
 {
-    int a,b;
-    cin>>a>>b;
-    cout<<lcm(a,b);
+    int arr[] = {2, 7, 3, 9, 4};
+
+    cout << lcm(arr, 5) << endl;
 
     return 0;
 }
