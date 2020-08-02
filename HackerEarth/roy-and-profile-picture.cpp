@@ -15,17 +15,21 @@ int main()
         int height, width;
         cin >> height >> width;
 
-        if (minLength == height && minLength == width)
+        if ((minLength > height) || (minLength > width))
+        {
+            cout << "UPLOAD ANOTHER" << endl;
+        }
+        else if ((height == minLength) && (width == minLength))
         {
             cout << "ACCEPTED" << endl;
         }
-        else if (height >= minLength && width >= minLength)
+        else if (height == width)
         {
-            cout << "CROP IT" << endl;
+            cout << "ACCEPTED" << endl;
         }
         else
         {
-            cout << "UPLOAD ANOTHER" << endl;
+            cout << "CROP IT" << endl;
         }
 
         test_case--;
