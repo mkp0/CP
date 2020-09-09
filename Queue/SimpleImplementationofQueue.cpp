@@ -4,7 +4,7 @@ using namespace std;
 
 class Queue
 {
-    public:
+public:
     int front, rear, size;
     unsigned int capacity;
     int *arr;
@@ -21,33 +21,33 @@ Queue *createQueue(unsigned int capacity)
     return queue;
 }
 
-int isFull(Queue* queue)
+int isFull(Queue *queue)
 {
     return (queue->size == queue->capacity);
 }
 
-int isEmpty(Queue* queue)
+int isEmpty(Queue *queue)
 {
     return (queue->size == 0);
 }
 
-int front(Queue*queue)
+int front(Queue *queue)
 {
-    if(isEmpty(queue))
+    if (isEmpty(queue))
         return INT_MIN;
     return queue->arr[queue->front];
 }
 
-int rear(Queue*queue)
+int rear(Queue *queue)
 {
-    if(isEmpty(queue))
+    if (isEmpty(queue))
         return INT_MIN;
     return queue->arr[queue->rear];
 }
 
-void enqueue(Queue* queue,int data)
+void enqueue(Queue *queue, int data)
 {
-    if(isFull(queue))
+    if (isFull(queue))
         return;
     queue->rear = (queue->rear + 1) % queue->capacity;
     queue->size = queue->size + 1;
@@ -56,9 +56,9 @@ void enqueue(Queue* queue,int data)
     cout << data << " enqueued to queue\n";
 }
 
-int dequeue(Queue* queue)
+int dequeue(Queue *queue)
 {
-    if(isEmpty(queue))
+    if (isEmpty(queue))
         return INT_MIN;
     else
     {
@@ -67,7 +67,6 @@ int dequeue(Queue* queue)
         queue->size = queue->size - 1;
         return data;
     }
-    
 }
 
 int main()
