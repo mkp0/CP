@@ -1,50 +1,31 @@
-//Maximum sum increasing subsequence
-#include <bits/stdc++.h>
 
-using namespace std;
-
-int main()
+class Solution
 {
-    int t;
-    cin >> t;
-    while (t--)
-    {
-        int l;
-        cin >> l;
-        int arr[l], dp[l] = {0};
 
-        for (int i = 0; i < l; i++)
+public:
+    int maxSumIS(int arr[], int n)
+    {
+        long long memo[n];
+        for (long long i = 0; i < n; i++)
         {
-            cin >> arr[i];
+            memo[i] = arr[i];
         }
-        dp[0] = arr[0];
-        for (int i = 1; i < l; i++)
+        for (long long i = 1; i < n; i++)
         {
-            int j = i - 1;
-            dp[i] = arr[i];
-            while (j >= 0)
+            for (long long j = 0; j < i; j++)
             {
                 if (arr[j] < arr[i])
                 {
-                    if (dp[j] + arr[i] > dp[i])
-                    {
-                        dp[i] = arr[i] + dp[j];
-                    }
+                    memo[i] = max(memo[j] + arr[i], memo[i]);
                 }
-                j--;
             }
         }
 
-        int ans = dp[0];
-        for (int i = 1; i < l; i++)
+        long long ans = arr[0];
+        for (long long i = 0; i < n; i++)
         {
-            if (ans < dp[i])
-            {
-                ans = dp[i];
-            }
+            ans = max(ans, memo[i]);
         }
-
-        cout << ans << endl;
+        return ans;
     }
-    return 0;
-}
+};
