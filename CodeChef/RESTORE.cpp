@@ -1,55 +1,52 @@
 #include <bits/stdc++.h>
-
-#define ll long long
-#define pi (3.141592653589)
-#define all(x) (x).begin(), (x).end()
-#define vi vector<int>
-#define vll vector<long long>
-#define pii pair<int, int>
-#define pll pair<long long, long long>
-#define pb push_back
-#define mp make_pair
-#define S second
-#define loop(i, a, b, c) for (int i = (a); i <= (b); i = i + (c))
-#define MOD 1e9 + 7
 using namespace std;
-
-// BS binary Search , subStr Substring , mrg Merge,SOE sieve of Era,permutate PermutationOfString ,graphi GraphIntialzation , graphBFS Graph BFS ,graphDFS graph DFS,exdGCD ExtendedGCD,nCR with Factorial ,axbyn ax+by=n
-
-/* I am gonna be the King of the Pirates */
-
+#define vi vector<int>
+#define pb push_back
+vi p;
+void sieve()
+{
+    p.pb(2);
+    for (int i = 3; i < 4000000; i++)
+    {
+        int temp = 0;
+        for (int j = 0; p[j] * p[j] <= i; j++)
+        {
+            if (i % p[j] == 0)
+            {
+                temp = 1;
+                break;
+            }
+        }
+        if (temp == 0)
+            p.pb(i);
+    }
+}
 void solve()
 {
     int n;
     cin >> n;
-    int a[n], b[n];
-    int j = 0;
+    int arr[n];
     for (int i = 0; i < n; i++)
     {
-        cin >> a[i];
+        cin >> arr[i];
     }
-    int x = 100001;
-    for (int i = n - 1; i >= 0; i--)
-    {
-
-        if (a[i] == (i + 1))
-        {
-            b[i] = x--;
-        }
-        else
-        {
-            b[i] = b[a[i] - 1];
-        }
-    }
-
+    int b[n] = {0};
+    int k = 0;
     for (int i = 0; i < n; i++)
     {
-        cout << b[i] << " ";
+        if (b[arr[i] - 1] == 0)
+        {
+            b[arr[i] - 1] = p[k];
+            k++;
+        }
     }
-    cout << endl;
+    for (int i = 0; i < n; i++)
+    {
+        cout << b[arr[i] - 1] << " ";
+    }
 }
 
-int32_t main()
+int main()
 {
 #ifndef ONLINE_JUDGE
     freopen("input.txt", "r", stdin);
@@ -58,11 +55,12 @@ int32_t main()
     ios::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
-    cin.tie(0);
+    sieve();
     int t;
     cin >> t;
     while (t--)
     {
         solve();
+        cout << "\n";
     }
 }
