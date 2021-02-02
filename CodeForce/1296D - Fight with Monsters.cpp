@@ -1,0 +1,70 @@
+#include <bits/stdc++.h>
+
+#define ll long long
+#define pi (3.141592653589)
+#define all(x) (x).begin(), (x).end()
+#define vi vector<int>
+#define vll vector<long long>
+#define pii pair<int, int>
+#define pll pair<long long, long long>
+#define pb push_back
+#define mp make_pair
+#define S second
+#define loop(i, a, b, c) for (int i = (a); i <= (b); i = i + (c))
+using namespace std;
+
+/* I am gonna be the King of the Pirates */
+int mod = 1e9 + 7;
+
+void solve()
+{
+    int n, a, b, k;
+    cin >> n >> a >> b >> k;
+    int arr[n];
+    for (int i = 0; i < n; i++)
+    {
+        cin >> arr[i];
+        arr[i] %= (a + b);
+        if (arr[i] == 0)
+            arr[i] = a + b;
+
+        arr[i] += (a - 1);
+        arr[i] /= a;
+        arr[i]--;
+    }
+
+    sort(arr, arr + n);
+    int ans = 0;
+
+    for (int i = 0; i < n && k >= 0; i++)
+    {
+        if (arr[i] <= k)
+        {
+            ans++;
+            k -= arr[i];
+        }
+        else
+        {
+            break;
+        }
+    }
+
+    cout << ans << "\n";
+}
+
+int32_t main()
+{
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    int t = 1;
+    while (t--)
+    {
+        solve();
+    }
+    return 0;
+}

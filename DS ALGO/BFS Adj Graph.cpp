@@ -4,19 +4,19 @@ void BFS(int s)
     queue<int> q;
 
     visited[s] = true;
-    queue.push_back(s);
+    q.push(s);
 
-    while (!queue.empty())
+    while (!q.empty())
     {
-        s = queue.front();
+        s = q.front();
         cout << s << " ";
-        queue.pop_front();
+        q.pop();
         for (auto x : adj[s])
         {
             if (!visited[x])
             {
                 visited[x] = true;
-                queue.push_back(x);
+                q.push(x);
             }
         }
     }
