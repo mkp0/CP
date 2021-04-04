@@ -1,88 +1,51 @@
-int getMid(int s, int e) { return s + (e - s) / 2; }
+const int MAXN = 100000;
+int N, M, a[MAXN], t[4 * MAXN]; // "a" is the array from which we build segment Tree "t"
 
-int getUtil(int *st, int ss, int se, int qs, int qe, int si)
+//define your custom nullv and merge() below.
+//merge(x, nullv) must return x for all x
+const int nullv = 1 << 30;
+inline int merge(int a, int b) { return a < b ? a : b; }
+
+void build(int n, int lo, int hi)
 {
-
-    if (qs <= ss && qe >= se)
-        return st[si];
-
-    if (se < qs || ss > qe)
-        return 0;
-
-    int mid = getMid(ss, se);
-    return getUtil(st, ss, mid, qs, qe, 2 * si + 1) ^
-           getUtil(st, mid + 1, se, qs, qe, 2 * si + 2); //change according to the problem
-}
-
-void updateValueUtil(int *st, int ss, int se, int i, int diff, int si)
-{
-    if (i < ss || i > se)
-        return;
-
-    st[si] = st[si] + diff;
-    if (se != ss)
+    if (lo == hi)
     {
-        int mid = getMid(ss, se);
-        updateValueUtil(st, ss, mid, i, diff, 2 * si + 1);
-        updateValueUtil(st, mid + 1, se, i, diff, 2 * si + 2);
-    }
-}
-
-void updateValue(int arr[], int *st, int n, int i, int new_val)
-{
-    if (i < 0 || i > n - 1)
-    {
-        /* invalid input */
+        t[n] = a[lo];
         return;
     }
-
-    int diff = new_val - arr[i];
-
-    arr[i] = new_val;
-
-    updateValueUtil(st, 0, n - 1, i, diff, 0);
+    build(2 * n + 1, lo, (lo + hi) / 2);
+    build(2 * n + 2, (lo + hi) / 2 + 1, hi);
+    t[n] = merge(t[2 * n + 1], t[2 * n + 2]);
 }
 
-int get(int *st, int n, int qs, int qe)
+//x and y must be manually set before each call to the
+//functions below. For query(), [x, y] is the range to
+//be considered. For update(), a[x] is to be set to y.
+int qstart, qend;
+
+//merge(a[i] for i = x..y, inclusive)
+int query(int n, int lo, int hi)
 {
-    if (qs < 0 || qe > n - 1 || qs > qe)
+    if (hi < qstart || lo > qend)
+        return nullv;
+    if (lo >= qstart && hi <= qend)
+        return t[n];
+
+    return merge(query(2 * n + 1, lo, (lo + hi) / 2),
+                 query(2 * n + 2, (lo + hi) / 2 + 1, hi));
+}
+
+//a[x] = y
+void update(int n, int lo, int hi)
+{
+    if (hi < qstart || lo > qstart)
+        return;
+    if (lo == hi)
     {
-        /* invalid input */
-        return -1;
+        t[n] = qend;
+        return;
     }
-
-    return getUtil(st, 0, n - 1, qs, qe, 0);
+    update(2 * n + 1, lo, (lo + hi) / 2);
+    update(2 * n + 2, (lo + hi) / 2 + 1, hi);
+    t[n] = merge(t[2 * n + 1], t[2 * n + 2]);
 }
-
-int constructSTUtil(int arr[], int ss, int se, int *st, int si)
-{
-    if (ss == se)
-    {
-        st[si] = arr[ss];
-        return arr[ss];
-    }
-
-    int mid = getMid(ss, se);
-    st[si] = constructSTUtil(arr, ss, mid, st, si * 2 + 1) ^
-             constructSTUtil(arr, mid + 1, se, st, si * 2 + 2); //change according to the problem
-    return st[si];
-}
-
-int *constructST(int arr[], int n)
-{
-
-    int x = (int)(ceil(log2(n)));
-
-    int max_size = 2 * (int)pow(2, x) - 1;
-
-    int *st = (int *)malloc(sizeof(int) * max_size);
-
-    constructSTUtil(arr, 0, n - 1, st, 0);
-
-    return st;
-}
-
-/*
-    Build segment tree from given array 
-    int *st = constructST(arr, n);  
-*/
