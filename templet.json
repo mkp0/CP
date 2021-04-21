@@ -43,40 +43,6 @@
 		"}"
 	  ],
 	  "description": "mkp"
-	},
-	"pkm": {
-		"prefix": "pkm",
-		"body": [
-		  "#include <bits/stdc++.h>",
-		  "#define ll long long",
-		  "#define vi vector<int>",
-		  "#define vll vector<long long>",
-		  "#define pb push_back",
-		  "using namespace std;",
-		  "",
-		  "const int mod = 1e9 + 7;",
-		  "",
-		  "void realcode()",
-		  "{",
-		  "}",
-		  "",
-		  "int main()",
-		  "{",
-		  "#ifndef ONLINE_JUDGE",
-		  "    freopen(\"input.txt\", \"r\", stdin);",
-		  "    //freopen(\"output.txt\", \"w\", stdout);",
-		  "#endif",
-		  "    ios::sync_with_stdio(0);",
-		  "    int testcase;",
-		  "    cin >> testcase;",
-		  "    while (testcase--)",
-		  "    {",
-		  "        realcode();",
-		  "    }",
-		  "    return 0;",
-		  "}"
-		],
-		"description": "pkm"
-	  }
+	}
 }
   
