@@ -37,8 +37,8 @@ void dfs2(int src) // backward graph dfs
     {
         int x, y;
         cin >> x >> y;
-        g[x].pb(y);
-        rg[y].pb(x);
+        g[x].push_back(y);
+        rg[y].push_back(x);
     }
 
 */
@@ -54,12 +54,13 @@ void dfs2(int src) // backward graph dfs
             dfs1(i);
         }
     }
+    order.push_back(src);
 */
 
 // step : 3 reverse the order
 // reverse(order.begin(), order.end());
 
-// step : 4
+// step : 4 this dfs run on reverse graph and each time each run a dfs on strongly connected component
 
 /*
     vis.clear();
