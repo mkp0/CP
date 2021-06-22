@@ -1,94 +1,90 @@
 #include <bits/stdc++.h>
 
+#define IOS ios::sync_with_stdio(0), cin.tie(0), cout.tie(0)
 #define ll long long
-#define pi (3.141592653589)
 #define all(x) (x).begin(), (x).end()
 #define vi vector<int>
 #define vll vector<long long>
 #define pii pair<int, int>
 #define pll pair<long long, long long>
 #define pb push_back
-#define mp make_pair
 #define S second
+#define F first
+#define inf 1e9
+#define llinf 1e18
 #define loop(i, a, b, c) for (int i = (a); i <= (b); i = i + (c))
-#define MOD 1e9 + 7
+
 using namespace std;
 
-//stringMul String Multiplication ,  trie trie, zalgo Z-Algorithm, segTree Segmentation Tree, BS binary Search , subStr Substring , mrg Merge,SOE sieve of Era,permutate PermutationOfString ,graphi GraphIntialzation , graphBFS Graph BFS ,graphDFS graph DFS,exdGCD ExtendedGCD,nCR with Factorial ,axbyn ax+by=n
+/* I'm gonna be the King of the Pirates */
+int mod = 1e9 + 7;
 
-/* I am gonna be the King of the Pirates */
+vector<int> g[100002];
+vector<int> discover(100002);
+vector<bool> vis(100002);
+vector<bool> AP(100002);
+vector<int> lowestAncestor(100002);
 
-int tim = 0;
-void AP(int u, vector<int> g[], vector<bool> &vis, vector<int> &dis, vector<int> &low, vector<int> &par, vector<bool> &ap)
+int timer = 0;
+int ans = 0;
+void dfs(int src, int par)
 {
+    vis[src] = true;
     int child = 0;
-    vis[u] = true;
-    dis[u] = low[u] = ++tim;
+    timer++;
+    discover[src] = timer;
+    lowestAncestor[src] = timer;
 
-    for (auto x : g[u])
+    for (auto &x : g[src])
     {
-        if (!vis[x])
+        if (x == par)
+            continue;
+        if (vis[x])
+            lowestAncestor[src] = min(lowestAncestor[src], discover[x]);
+        else
         {
             child++;
-            par[x] = u;
-            AP(x, g, vis, dis, low, par, ap);
-            low[u] = min(low[x], low[u]);
-            if (par[u] == -1 && child > 1)
-            {
-                ap[u] = true;
-            }
-            if (par[u] != -1 && low[x] >= dis[u])
-            {
-                ap[u] = true;
-            }
-        }
-        else if (x != par[u])
-        {
-            low[u] = min(low[u], dis[x]);
+            dfs(x, src);
+            lowestAncestor[src] = min(lowestAncestor[src], lowestAncestor[x]);
+            if (par != -1 && lowestAncestor[x] >= discover[src])
+                AP[src] = true;
+            if (par == -1 && child > 1)
+                AP[src] = true;
         }
     }
 }
 
-void solve(int x, int y)
+void solve(int v, int e)
 {
-    int v, e;
-    v = x, e = y;
-    vector<int> g[v];
+    for (int i = 0; i <= v; i++)
+    {
+        vis[i] = false;
+        g[i].clear();
+        lowestAncestor[i] = 0;
+        discover[i] = 0;
+        AP[i] = false;
+    }
 
     for (int i = 0; i < e; i++)
     {
-        int a, b;
-        cin >> a >> b;
-        a--, b--;
-        g[a].pb(b);
-        g[b].pb(a);
+        int x, y;
+        cin >> x >> y;
+        g[x].pb(y);
+        g[y].pb(x);
     }
+    timer = 0;
+    dfs(1, -1);
+    ans = 0;
 
-    vector<bool> vis(v, false);
-    vector<int> dis(v, -1);
-    vector<int> low(v, -1);
-    vector<int> par(v, -1);
-    vector<bool> ap(v, false);
-
-    tim = 0;
-
-    for (int i = 0; i < v; i++)
+    for (int i = 1; i <= v; i++)
     {
-        if (!vis[i])
+        if (AP[i])
         {
-            AP(i, g, vis, dis, low, par, ap);
+            ans++;
         }
     }
 
-    int co = 0;
-
-    for (int i = 0; i < v; i++)
-    {
-        if (ap[i] == true)
-            co++;
-    }
-
-    cout << co << endl;
+    cout << ans << endl;
 }
 
 int32_t main()
@@ -97,17 +93,15 @@ int32_t main()
     //     freopen("input.txt", "r", stdin);
     //     freopen("output.txt", "w", stdout);
     // #endif
-    ios::sync_with_stdio(0);
-    cin.tie(0);
-    cout.tie(0);
-
+    IOS;
+    int t = 1;
     while (1)
     {
-        int a, b;
-        cin >> a >> b;
-        if (a == 0 && b == 0)
+        int x, y;
+        cin >> x >> y;
+        if (!x && !y)
             return 0;
-        solve(a, b);
+        solve(x, y);
     }
     return 0;
 }
